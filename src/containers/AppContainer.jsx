@@ -22,7 +22,7 @@ class AppContainer extends React.Component {
 
     render() {
         return(
-            <>
+            <React.Fragment>
             <Loading />
             <Error />
             <Container>
@@ -31,7 +31,7 @@ class AppContainer extends React.Component {
                     first={<Results data={this.props.statsState.stats} loading={this.props.statsState.loading}/>}
                     second={<Chart data={this.props.statsState.continentStats} loading={this.props.statsState.loading} radioChangeHandler={this.props.getContinentStats}/>} />
             </Container>
-            </>
+            </React.Fragment>
         );
     }
 }
