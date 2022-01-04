@@ -1,11 +1,16 @@
 import React from "react";
-import { Row, Col, Button, Tabs, Tab, Container } from "react-bootstrap";
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 import Results from "../components/Results";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import {Chart} from "../components/Chart";
 import {connect} from 'react-redux';
 import {getContinentStats, getStats} from '../actions'
-import Loading from "../components/Loading";
-import Error from "../components/Error";
+import Loading from "../containers/Loading";
+import Error from "../containers/Error";
+import TabsComponent from "../components/Tabs";
 
 
 class AppContainer extends React.Component {
@@ -14,31 +19,22 @@ class AppContainer extends React.Component {
         this.props.getStats();
     }
     
-    handleBtnClick = () => {
+    handleReloadStatsBtnClick = () => {
         this.props.getStats();
     }
 
     render() {
-        if(this.props.statsState.loading) {
-            return <Loading />
-        }
-        if(this.props.statsState.error) {
-            return <Error />
-        }
         return(
+            <>
+            <Loading />
+            <Error />
             <Container>
-            <Row>
-                <Button onClick={() => {this.handleBtnClick()}}>Reload results</Button>
-                <Tabs defaultActiveKey="results" className="mb-3">
-                    <Tab eventKey="results" title="Results">
-                        <Col><Results data={this.props.statsState.stats} loading={this.props.statsState.loading}/></Col>
-                    </Tab>
-                    <Tab eventKey="chart" title="Charts">
-                        <Col><Chart data={this.props.statsState.continentStats} loading={this.props.statsState.loading} radioChangeHandler={this.props.getContinentStats}/></Col>
-                    </Tab>
-                </Tabs>
-            </Row>
+                <Button onClick={() => {this.handleReloadStatsBtnClick()}}>Reload results</Button>
+                <TabsComponent 
+                    first={<Results data={this.props.statsState.stats} loading={this.props.statsState.loading}/>}
+                    second={<Chart data={this.props.statsState.continentStats} loading={this.props.statsState.loading} radioChangeHandler={this.props.getContinentStats}/>} />
             </Container>
+            </>
         );
     }
 }

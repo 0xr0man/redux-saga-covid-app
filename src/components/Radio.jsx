@@ -1,27 +1,28 @@
 import React from "react";
-import { ButtonGroup, ToggleButton } from "react-bootstrap";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import { useState } from "react";
 
-const Radio = ({radios, radioChangeHandler}) => {
+const RadioComponent = ({radios, radioChangeHandler}) => {
     const [radioValue, setRadioValue] = useState('1');
     return (
-        <ButtonGroup>
+      <FormControl component="fieldset">
+      <FormLabel component="legend">Continent</FormLabel>
+      <RadioGroup
+        aria-label="continent"
+        name="controlled-radio-buttons-group"
+        value={radioValue}
+        onChange={(e) => {setRadioValue(e.target.value); radioChangeHandler(e.target.value)}}
+      >
         {radios.map((radio, idx) => (
-          <ToggleButton
-            key={idx}
-            id={`radio-${idx}`}
-            type="radio"
-            variant={idx % 2 ? 'outline-success' : 'outline-danger'}
-            name="radio"
-            value={radio.value}
-            checked={radioValue === radio.value}
-            onChange={(e) => {setRadioValue(e.currentTarget.value); radioChangeHandler(e.currentTarget.value)}}
-          >
-            {radio.name}
-          </ToggleButton>
+          <FormControlLabel value={radio.value} control={<Radio />} label={radio.name} />
         ))}
-      </ButtonGroup>
+        </RadioGroup>
+       </FormControl>
     )
 }
 
-export default Radio;
+export default RadioComponent;
