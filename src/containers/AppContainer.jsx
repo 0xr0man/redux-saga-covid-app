@@ -2,9 +2,6 @@ import React from "react";
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Results from "../components/Results";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import {Chart} from "../components/Chart";
 import {connect} from 'react-redux';
 import {getContinentStats, getStats} from '../actions'
