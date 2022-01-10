@@ -1,13 +1,14 @@
 import LinearProgress from '@mui/material/LinearProgress';
 import { connect } from "react-redux";
+import { getLoading } from '../reducers/loading.selectors';
 
 export const Loading = (props) => (
-    props.statsState.loading ? 
+    props.loading ? 
     <LinearProgress /> : null
 );
 
 const mapStateToProps = (state) => ({
-    statsState: state,
+    loading: getLoading(state),
 })
 
 export default connect(mapStateToProps, null)(Loading);

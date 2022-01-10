@@ -1,4 +1,4 @@
-import { 
+import {
     STATS_LOAD_START,
     STATS_LOAD_SUCCESS,
     STATS_LOAD_ERROR,
@@ -8,7 +8,7 @@ import {
 } from "../actions";
 
 const initialState = {
-    loading: true,
+    loading: false,
     error: false,
     stats: null,
     continentStats: null,

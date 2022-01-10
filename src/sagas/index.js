@@ -1,55 +1,55 @@
-import { put, takeLatest, all, call } from 'redux-saga/effects';
-import { 
-    STATS_LOAD_START,
-     STATS_LOAD_SUCCESS,
-     STATS_LOAD_ERROR,
-     CONTINENT_STATS_LOAD_START,
-     CONTINENT_STATS_LOAD_SUCCESS,
-     CONTINENT_STATS_LOAD_ERROR,
+import { put, takeEvery, all, call } from 'redux-saga/effects';
+import {
+    STATS_LOAD,
+    loadStatsStart,
+    statsLoaded,
+    statsErrorLoading,
+    continentStatsLoaded,
+    loadContinentStatsStart, CONTINENT_STATS_LOAD, continentStatsErrorLoading,
 } from "../actions";
+import api from "../services/api";
 
-const RAPID_API_HOST = process.env.REACT_APP_RAPID_API_HOST;
-const RAPID_API_KEY = process.env.REACT_APP_RAPID_API_KEY;
-const API_URL = process.env.REACT_APP_API_URL;
-
-function* fetchStats() {
-    const json = yield call(()=> 
-        fetch(API_URL + '/countries', {
-            headers: {
-                'x-rapidapi-key': RAPID_API_KEY,
-                'x-rapidapi-host': RAPID_API_HOST,
-            },
-        })
-        .then(response => response.json())
-    )
-    
-    yield put({ type: STATS_LOAD_SUCCESS, json: json || [{ type: STATS_LOAD_ERROR }]}); 
+export function* fetchStats() {
+    try {
+        yield put(loadStatsStart())
+        const json = yield call(api.stats.getAll)
+        yield put(statsLoaded(json))
+    } catch(error) {
+        console.error(error);
+        yield put(statsErrorLoading(error))
+    }
 }
 
-function* fetchStatsByContinent(action) {
-    const json = yield call(()=> 
-        fetch(API_URL + '/'+action.continent, {
-            headers: {
-                'x-rapidapi-key': RAPID_API_KEY,
-                'x-rapidapi-host': RAPID_API_HOST,
-            },
-        })
-        .then(response => response.json())
-    )
-    yield put({type: CONTINENT_STATS_LOAD_SUCCESS, json: json || [{type: CONTINENT_STATS_LOAD_ERROR}] });
+export function* fetchStatsByContinent(continent) {
+    try {
+        yield put(loadContinentStatsStart())
+        const json = yield call(api.stats.getByContinent, continent)
+        yield put(continentStatsLoaded(json));
+    } catch(error) {
+        console.error(error);
+        yield put(continentStatsErrorLoading(error))
+    }
 }
 
-function* watchStatsLoad() {
-        yield takeLatest(STATS_LOAD_START, fetchStats);
+export function* onLoadStats() {
+    yield call(fetchStats)
 }
 
-function* watchContinentStatsLoad() {
-    yield takeLatest(CONTINENT_STATS_LOAD_START, fetchStatsByContinent);
+export function* onLoadContinentStats(action) {
+    yield call(fetchStatsByContinent, action.continent)
+}
+
+export function* watchLoadStats() {
+    yield takeEvery(STATS_LOAD, onLoadStats)
+}
+
+function* watchLoadContinentStats() {
+    yield takeEvery(CONTINENT_STATS_LOAD, onLoadContinentStats)
 }
 
 export default function* rootSaga() {
     yield all([
-        watchStatsLoad(),
-        watchContinentStatsLoad(),
+        watchLoadStats(),
+        watchLoadContinentStats(),
     ]);
 }
