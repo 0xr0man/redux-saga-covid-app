@@ -46,19 +46,21 @@ export default function TabsComponent({first, second}) {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Results" {...a11yProps(0)} />
-          <Tab label="Charts" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <TabPanel value={value} index={0}>
-        {first}
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        {second}
-      </TabPanel>
-    </Box>
+      <div className={"tabs-navigation-container"}>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab className="tabs-navigation-item-results" label="Results" {...a11yProps(0)} />
+              <Tab className={"tabs-navigation-item-charts"} label="Charts" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            {first}
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            {second}
+          </TabPanel>
+        </Box>
+      </div>
   );
 }

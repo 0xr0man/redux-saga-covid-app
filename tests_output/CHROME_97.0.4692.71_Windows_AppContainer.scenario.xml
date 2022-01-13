@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="1">
+
+  <testsuite name="AppContainer.scenario"
+    errors="0" failures="0" hostname="" id="" package="AppContainer.scenario" skipped="0"
+    tests="1" time="1.940" timestamp="">
+  
+    <testcase name="App container page" classname="AppContainer.scenario" time="1.940" assertions="12">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>

@@ -48,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chromedriver": "^97.0.0",
+    "geckodriver": "^3.0.1"
   }
 }
